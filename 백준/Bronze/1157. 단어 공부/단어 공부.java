@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
@@ -12,30 +10,26 @@ public class Main {
         String input = sc.next().toUpperCase();
 
         Map<Character, Integer> map = new HashMap<>();
-        for (char c : input.toCharArray()) {
-            if (map.containsKey(c)) {
-                map.put(c, map.get(c) + 1);
-            } else {
-                map.put(c, 1);
-            }
-        }
-
         int max = 0;
-        for (Entry<Character, Integer> entry : map.entrySet()) {
-            max = Math.max(max, entry.getValue());
+
+        for (char c : input.toCharArray()) {
+            int count = map.compute(c, (key, value) -> (value == null) ? 1 : value + 1);
+            max = Math.max(max, count);
         }
 
-        List<Character> list = new ArrayList<>();
+        Character result = null;
+        boolean multipleMax = false;
 
         for (Entry<Character, Integer> entry : map.entrySet()) {
             if (entry.getValue() == max) {
-                list.add(entry.getKey());
+                if (result != null) {
+                    multipleMax = true;
+                    break;
+                }
+                result = entry.getKey();
             }
         }
-        if (list.size() != 1) {
-            System.out.println("?");
-        } else {
-            System.out.println(list.get(0));
-        }
+
+        System.out.println(multipleMax ? "?" : result);
     }
 }
