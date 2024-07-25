@@ -70,9 +70,7 @@ public class Main {
             if (cx >= 0 && cy >= 0 && cx < visited.length && cy < visited.length && !visited[cy][cx]) {
                 char nextColor = graph[cy][cx];
 
-                if (color == 'R' && (nextColor == 'R' || nextColor == 'G')) {
-                    specialDfs(graph, visited, cx, cy, nextColor);
-                } else if (color == 'G' && (nextColor == 'R' || nextColor == 'G')) {
+                if ((color == 'R' || color == 'G') && (nextColor == 'R' || nextColor == 'G')) {
                     specialDfs(graph, visited, cx, cy, nextColor);
                 } else if (color == nextColor) {
                     specialDfs(graph, visited, cx, cy, nextColor);
