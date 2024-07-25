@@ -1,6 +1,4 @@
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 public class Main {
 
@@ -16,7 +14,6 @@ public class Main {
 
             int[][] graph = new int[n][n];
             boolean[] visited = new boolean[n];
-            Set<Integer> nodeSet = new HashSet<>();
 
             for (int i = 0; i < m; i++) {
                 int u = scanner.nextInt() - 1;
@@ -24,22 +21,13 @@ public class Main {
 
                 graph[u][v] = 1;
                 graph[v][u] = 1;
-
-                nodeSet.add(u);
-                nodeSet.add(v);
-            }
-
-            for (int i = 0; i < n; i++) {
-                if (!nodeSet.contains(i)) {
-                    graph[i][i] = 1;
-                }
             }
 
             int count = 0;
 
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    if (!visited[j] && graph[i][j] == 1) {
+                    if (!visited[j]) {
                         dfs(graph, visited, j);
                         count++;
                     }
