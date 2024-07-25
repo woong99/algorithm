@@ -1,11 +1,10 @@
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
 public class Main {
 
-    private final static Set<Integer> set = new HashSet<>();
+    private static final Set<Integer> infectedComputers = new HashSet<>();
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -13,7 +12,7 @@ public class Main {
             int computerCoupleCount = scanner.nextInt(); // 컴퓨터의 쌍 수
 
             int[][] graph = new int[computerCount][computerCount]; // 그래프 선언
-            int[][] visited = new int[computerCount][computerCount]; // 방문 여부 그래프 선언
+            boolean[] visited = new boolean[computerCount]; // 방문 여부 그래프 선언
 
             for (int i = 0; i < computerCoupleCount; i++) {
                 int firstNum = scanner.nextInt();
@@ -24,27 +23,17 @@ public class Main {
 
             dfs(graph, visited, 0);
 
-            System.out.println(set.size());
+            System.out.println(infectedComputers.size());
         }
     }
 
-    private static void dfs(int[][] graph, int[][] visited, int n) {
+    private static void dfs(int[][] graph, boolean[] visited, int n) {
+        visited[n] = true;
         for (int i = 0; i < graph.length; i++) {
-            if (graph[n][i] == 1 && visited[n][i] == 0) {
-                visited[n][i] = 1;
-                if (i != 0) {
-                    set.add(i);
-                }
+            if (graph[n][i] == 1 && !visited[i]) {
+                infectedComputers.add(i);
                 dfs(graph, visited, i);
             }
         }
-    }
-
-    private static void printGraph(int[][] graph) {
-        System.out.println();
-        for (int[] ints : graph) {
-            System.out.println(Arrays.toString(ints));
-        }
-        System.out.println();
     }
 }
